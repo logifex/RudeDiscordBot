@@ -7,7 +7,7 @@ namespace RudeDiscordBot.Utils.Voice
 {
     internal class SpeechToText
     {
-        private const int MaxSilenceTimes = 10;
+        private const int MaxSilenceTimes = 15;
         private const int RecognitionInterval = 100;
         private const uint SilenceFrameLength = AppConstants.AudioSampleRate / 1000 * RecognitionInterval * (AppConstants.AudioBitsPerSample / 8) * AppConstants.AudioChannels;
 
