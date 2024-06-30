@@ -12,7 +12,7 @@ namespace RudeDiscordBot.Utils.Voice
     {
         private const int ListenInterval = 500;
 
-        public delegate Task SpeechRecognizeHandler(ulong guildId, ulong speaker, string recognizedText);
+        public delegate Task SpeechRecognizeHandler(ulong guildId, ulong speakerId, string recognizedText);
         public event SpeechRecognizeHandler? OnSpeechRecognize;
 
         public ulong GuildId { get; private set; }
@@ -40,10 +40,10 @@ namespace RudeDiscordBot.Utils.Voice
             _audioStream = _audioClient.CreatePCMStream(AudioApplication.Voice);
         }
 
-        public async Task InitializeAsync()
+        public void Initialize()
         {
             _speechToText.OnRecognized += OnSpeechRecognized;
-            await SpeakAsync(Config.WelcomeMessage);
+            _ = SpeakAsync(Config.WelcomeMessage);
         }
 
         public void StartListeningForSpeech()
@@ -97,10 +97,10 @@ namespace RudeDiscordBot.Utils.Voice
             Messages.Add(new Message(Content.Text(text), _discordClient.CurrentUser.Id));
         }
 
-        public async Task ResetConversation()
+        public void ResetConversation()
         {
             Messages = [];
-            await SpeakAsync(Config.WelcomeMessage);
+            _ = SpeakAsync(Config.WelcomeMessage);
         }
 
         private KeyValuePair<ulong, AudioInStream> GetSpeakingUserStream()

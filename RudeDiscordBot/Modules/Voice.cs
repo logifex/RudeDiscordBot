@@ -34,7 +34,7 @@ namespace RudeDiscordBot.Modules
             }
 
             await RespondAsync("Connecting...");
-            await _voiceService.JoinChannelAsync(voiceChannel, Context.Guild.Id);
+            await _voiceService.JoinChannelAsync(voiceChannel);
             _voiceService.StartListeningForSpeech(Context.Guild.Id);
         }
 
@@ -67,7 +67,7 @@ namespace RudeDiscordBot.Modules
             }
 
             await RespondAsync("Changing personality...");
-            await _voiceService.ChangePersonality(Context.Guild.Id, personality);
+            _voiceService.ChangePersonality(Context.Guild.Id, personality);
         }
     }
 }

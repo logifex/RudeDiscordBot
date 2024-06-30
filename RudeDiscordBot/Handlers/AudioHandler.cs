@@ -62,7 +62,7 @@ namespace RudeDiscordBot.Handlers
 
             if (voiceChannel.GetUser(_client.CurrentUser.Id) == null)
             {
-                await _voiceService.JoinChannelAsync(voiceChannel, guildId);
+                await _voiceService.JoinChannelAsync(voiceChannel);
                 _voiceService.StartListeningForSpeech(guildId);
             }
         }

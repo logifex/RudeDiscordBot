@@ -30,11 +30,12 @@ namespace RudeDiscordBot.Services
                 ];
         }
 
-        public async Task JoinChannelAsync(IVoiceChannel voiceChannel, ulong guildId)
+        public async Task JoinChannelAsync(IVoiceChannel voiceChannel)
         {
+            var guildId = voiceChannel.Guild.Id;
             var audioClient = await voiceChannel.ConnectAsync();
             var session = new VoiceChannelSession(audioClient, guildId, _client, _speechConfig);
-            await session.InitializeAsync();
+            session.Initialize();
             _sessions.AddOrUpdate(guildId, session, (key, oldValue) => session);
 
             audioClient.Disconnected += (exception) =>
@@ -59,16 +60,16 @@ namespace RudeDiscordBot.Services
             }
         }
 
-        public async Task ChangePersonality(ulong guildId, Personality personality)
+        public void ChangePersonality(ulong guildId, Personality personality)
         {
             if (_sessions.TryGetValue(guildId, out var session))
             {
                 session.Personality = personality;
-                await session.ResetConversation();
+                session.ResetConversation();
             }
         }
 
-        private Task HandleSpeechRecognize(ulong guildId, ulong speaker, string recognizedText)
+        private Task HandleSpeechRecognize(ulong guildId, ulong speakerId, string recognizedText)
         {
             Task.Run(async () =>
             {
