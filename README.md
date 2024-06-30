@@ -39,7 +39,8 @@ Use the `App.config` file to set the following:
 ## Setup
 
 1. Ensure all dependencies and required tokens are set in `App.config`.
-2. Download the required native libraries (`libsodium` and `opus`):
+2. **TTS Voice**: Ensure the chosen TTS voice is installed on your PC and matches the language you intend to use. Note that **Microsoft David Desktop** is usually installed by default on Windows for English language support.
+3. Download the required native libraries (`libsodium` and `opus`):
    - After building your bot, place these libraries in the runtime directory where your bot executable runs. Precompiled binaries for Windows are available [here](https://github.com/discord-net/Discord.Net/tree/dev/voice-natives).
    - Rename `libopus.dll` to `opus.dll`.
-3. Run the bot and allow up to an hour for Discord command registration.
+4. Run the bot and allow up to an hour for Discord command registration.
