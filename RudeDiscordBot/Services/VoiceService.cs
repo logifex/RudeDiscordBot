@@ -90,8 +90,8 @@ namespace RudeDiscordBot.Services
                 }
                 catch (Exception ex)
                 {
-                    await session.SpeakAsync("Something happened to my brain...");
                     Logger.Log(ex.Message);
+                    await session.SpeakAsync("Something happened to my brain...");
                 }
             });
 

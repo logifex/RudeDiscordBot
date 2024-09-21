@@ -3,6 +3,7 @@ using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using RudeDiscordBot.Classes;
 using RudeDiscordBot.Enums;
+using System.Text.RegularExpressions;
 
 namespace RudeDiscordBot.Services
 {
@@ -108,7 +109,15 @@ namespace RudeDiscordBot.Services
                     }
 
                     var chatMessage = ChatMessage.FromUser(messageContents);
-                    chatMessage.Name = message.AuthorName;
+                    if (message.AuthorName != null)
+                    {
+                        var name = Regex.Replace(message.AuthorName.Replace(' ', '_'), @"[^a-zA-Z0-9_-]", "");
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            chatMessage.Name = name;
+                        }
+                    }
+                    
                     chatMessages.Add(chatMessage);
                 }
             }

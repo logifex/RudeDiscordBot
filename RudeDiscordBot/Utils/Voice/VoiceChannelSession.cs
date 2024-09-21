@@ -34,7 +34,7 @@ namespace RudeDiscordBot.Utils.Voice
             Messages = [];
             _discordClient = client;
             _audioClient = audioClient;
-            _audioClient.Disconnected += OnDisconnected;
+            _audioClient.Disconnected += HandleDisconnected;
             _textToSpeech = new TextToSpeech();
             _speechToText = new SpeechToText(speechConfig);
             _audioStream = _audioClient.CreatePCMStream(AudioApplication.Voice);
@@ -42,7 +42,7 @@ namespace RudeDiscordBot.Utils.Voice
 
         public void Initialize()
         {
-            _speechToText.OnRecognized += OnSpeechRecognized;
+            _speechToText.OnRecognized += HandleSpeechRecognized;
             _ = SpeakAsync(Config.WelcomeMessage);
         }
 
@@ -110,14 +110,14 @@ namespace RudeDiscordBot.Utils.Voice
             return stream;
         }
 
-        private void OnSpeechRecognized(string text)
+        private void HandleSpeechRecognized(string text)
         {
             var user = _discordClient.GetUser(CurrentSpeakerId);
             Messages.Add(new Message(Content.Text(text), CurrentSpeakerId, user.GlobalName));
             OnSpeechRecognize?.Invoke(GuildId, CurrentSpeakerId, text);
         }
 
-        private Task OnDisconnected(Exception exception)
+        private Task HandleDisconnected(Exception exception)
         {
             Dispose();
 
@@ -127,8 +127,8 @@ namespace RudeDiscordBot.Utils.Voice
         public void Dispose()
         {
             StopListeningForSpeech();
-            _speechToText.OnRecognized -= OnSpeechRecognized;
-            _audioClient.Disconnected -= OnDisconnected;
+            _speechToText.OnRecognized -= HandleSpeechRecognized;
+            _audioClient.Disconnected -= HandleDisconnected;
             _audioStream.Dispose();
         }
     }

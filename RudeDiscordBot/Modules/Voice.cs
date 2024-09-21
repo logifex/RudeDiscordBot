@@ -21,14 +21,14 @@ namespace RudeDiscordBot.Modules
 
             if (voiceChannel == null)
             {
-                await RespondAsync("No channel connected");
+                await RespondAsync("You are not connected to a voice channel.");
 
                 return;
             }
 
             if (voiceChannel.GetUser(Context.Client.CurrentUser.Id) != null)
             {
-                await RespondAsync("Already connected");
+                await RespondAsync("Already connected to the voice channel.");
 
                 return;
             }
@@ -38,14 +38,14 @@ namespace RudeDiscordBot.Modules
             _voiceService.StartListeningForSpeech(Context.Guild.Id);
         }
 
-        [SlashCommand("leavevoice", "Leaves the connected voice channel")]
+        [SlashCommand("leavevoice", "Leaves the connected voice channel.")]
         public async Task LeaveVoice()
         {
             var voiceChannel = ((SocketGuildUser)Context.User).VoiceChannel;
 
             if (voiceChannel == null || voiceChannel.GetUser(Context.Client.CurrentUser.Id) == null)
             {
-                await RespondAsync("Not connected to voice");
+                await RespondAsync("Not connected to a voice channel.");
 
                 return;
             }
@@ -61,7 +61,7 @@ namespace RudeDiscordBot.Modules
 
             if (voiceChannel == null || voiceChannel.GetUser(Context.Client.CurrentUser.Id) == null)
             {
-                await RespondAsync("Not connected to voice");
+                await RespondAsync("Not connected to a voice channel.");
 
                 return;
             }

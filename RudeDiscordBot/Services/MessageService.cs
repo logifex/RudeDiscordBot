@@ -59,8 +59,8 @@ namespace RudeDiscordBot.Services
                 }
                 catch (Exception ex)
                 {
-                    await SendMessageAsync("Something happened to my brain...", channel);
                     Logger.Log(ex.Message);
+                    await SendMessageAsync("Something happened to my brain...", channel);
                 }
             }
         }
